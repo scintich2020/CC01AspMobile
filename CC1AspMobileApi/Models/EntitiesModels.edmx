@@ -1,0 +1,128 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="CC1AspMobileApi.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Bien1">
+          <Key>
+            <PropertyRef Name="IdBien" />
+          </Key>
+          <Property Name="IdBien" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DateCreation" Type="datetime" Nullable="false" />
+          <Property Name="Nom" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="IdProprietaire" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Proprietaire">
+          <Key>
+            <PropertyRef Name="IdProprietaire" />
+          </Key>
+          <Property Name="IdProprietaire" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nom" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="DateNaissance" Type="date" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Bien1_Bien1">
+          <End Role="Bien1" Type="Self.Bien1" Multiplicity="1" />
+          <End Role="Bien11" Type="Self.Bien1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Bien1">
+              <PropertyRef Name="IdBien" />
+            </Principal>
+            <Dependent Role="Bien11">
+              <PropertyRef Name="IdProprietaire" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CC1AspMobileApiStoreContainer">
+          <EntitySet Name="Bien1" EntityType="Self.Bien1" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Proprietaire" EntityType="Self.Proprietaire" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Bien1_Bien1" Association="Self.FK_Bien1_Bien1">
+            <End Role="Bien1" EntitySet="Bien1" />
+            <End Role="Bien11" EntitySet="Bien1" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CC1AspMobileApi" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="cc_dbEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Bien1" EntityType="CC1AspMobileApi.Bien1" />
+          <EntitySet Name="Proprietaires" EntityType="CC1AspMobileApi.Proprietaire" />
+          <AssociationSet Name="Bien1Proprietaire" Association="CC1AspMobileApi.Bien1Proprietaire">
+            <End Role="Bien1" EntitySet="Bien1" />
+            <End Role="Proprietaire" EntitySet="Proprietaires" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Bien1">
+          <Key>
+            <PropertyRef Name="IdBien" />
+          </Key>
+          <Property Name="IdBien" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DateCreation" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Nom" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="IdProprietaire" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Proprietaire" Relationship="CC1AspMobileApi.Bien1Proprietaire" FromRole="Bien1" ToRole="Proprietaire" />
+          </EntityType>
+        <EntityType Name="Proprietaire">
+          <Key>
+            <PropertyRef Name="IdProprietaire" />
+          </Key>
+          <Property Name="IdProprietaire" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nom" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DateNaissance" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Bien1" Relationship="CC1AspMobileApi.Bien1Proprietaire" FromRole="Proprietaire" ToRole="Bien1" />
+        </EntityType>
+        <Association Name="Bien1Proprietaire">
+          <End Type="CC1AspMobileApi.Bien1" Role="Bien1" Multiplicity="*" />
+          <End Type="CC1AspMobileApi.Proprietaire" Role="Proprietaire" Multiplicity="1" />
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CC1AspMobileApiStoreContainer" CdmEntityContainer="cc_dbEntities">
+          <EntitySetMapping Name="Bien1">
+            <EntityTypeMapping TypeName="CC1AspMobileApi.Bien1">
+              <MappingFragment StoreEntitySet="Bien1">
+                <ScalarProperty Name="IdProprietaire" ColumnName="IdProprietaire" />
+                <ScalarProperty Name="Nom" ColumnName="Nom" />
+                <ScalarProperty Name="DateCreation" ColumnName="DateCreation" />
+                <ScalarProperty Name="IdBien" ColumnName="IdBien" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Proprietaires">
+            <EntityTypeMapping TypeName="CC1AspMobileApi.Proprietaire">
+              <MappingFragment StoreEntitySet="Proprietaire">
+                <ScalarProperty Name="DateNaissance" ColumnName="DateNaissance" />
+                <ScalarProperty Name="Nom" ColumnName="Nom" />
+                <ScalarProperty Name="IdProprietaire" ColumnName="IdProprietaire" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Aucun" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
